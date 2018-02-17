@@ -36,10 +36,29 @@ In your app `build.gradle`:
 ```
 depencencies {
         ...
-        implementation 'com.github.wardellbagby:RxCountDownTimer:-SNAPSHOT'
+        implementation 'com.github.wardellbagby:RxCountDownTimer:0.1.0'
 }
 ```
 
+### Using
+
+```kotlin
+    //Counts down from 60000 millis with a new value being emitted at least 1000 millis after the last one. Emits in milliseconds.
+    RxCountDownTimer.create(60000, 1000)
+        .subscribe {
+            println("Emitted value: $it")
+        }
+   
+   //Counts down from 60 seconds with a new value being emitted at least 1 second after the last one. Emits in seconds.
+   RxCountDownTimer.create(60, 1, TimeUnit.SECONDS)
+       .subscribe {
+           println("Emitted value: $it")
+       }
+```
+
+#### "Can't create RxCountDownTimer inside thread that has not called Looper.prepare()"
+
+The CountDownTimer class uses a Handler behind the scenes, which requires that the thread that the Handler is created on has an associated Looper. With Rx, you'll likely run into this situation if you're attempting to create an RxCountDownTimer on one of the default (e.g, `Schedulers.io` or `Schedulers.computation`) schedulers, as they don't have Loopers associated with them. The easiest option is to just have this created on the main thread. Even though this has a requirement to be created on a thread with a looper, its values can be emitted on any Scheduler by following the `create()` call with an `observeOn()` call. 
 ### Building
 
 You can build this lib using:
