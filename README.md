@@ -18,6 +18,28 @@ I wish I was a baller. I wish I had a function that compiled; I would call it. I
 
 Simply check out this project and import it into Android Studio! Gradle and Android Studio should take care of the rest!
 
+### As A Dependency
+
+In your root `build.gradle`:
+
+```
+allprojects {
+        repositories {
+                ...
+                maven { url 'https://jitpack.io' }
+        }
+}
+```
+
+In your app `build.gradle`:
+
+```
+depencencies {
+        ...
+        implementation 'com.github.wardellbagby:RxCountDownTimer:-SNAPSHOT'
+}
+```
+
 ### Building
 
 You can build this lib using:
